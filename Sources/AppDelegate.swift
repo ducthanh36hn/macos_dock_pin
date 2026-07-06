@@ -60,9 +60,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func relaunch() {
-        let url = Bundle.main.bundleURL
-        let config = NSWorkspace.OpenConfiguration()
-        NSWorkspace.shared.openApplication(at: url, configuration: config) { _, _ in }
+        let path = Bundle.main.bundlePath
+        let task = Process()
+        task.launchPath = "/bin/sh"
+        task.arguments = ["-c", "sleep 0.5; open '\(path)'"]
+        task.launch()
         NSApp.terminate(nil)
     }
 

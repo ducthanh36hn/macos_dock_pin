@@ -22,7 +22,7 @@ DockPin uses a **CGEvent tap** (`kCGHIDEventTap`) to monitor all mouse-moved eve
 - **Accessibility permission** — required for the CGEvent tap to function  
   *(System Settings → Privacy & Security → Accessibility)*
 
-## Build
+## Install
 
 Requires [XcodeGen](https://github.com/yonaskolb/XcodeGen) and Xcode 15+.
 
@@ -30,15 +30,17 @@ Requires [XcodeGen](https://github.com/yonaskolb/XcodeGen) and Xcode 15+.
 git clone https://github.com/ducthanh36hn/macos_dock_pin.git
 cd macos_dock_pin
 xcodegen generate
-xcodebuild -scheme DockPin -configuration Release build
+bash install.sh
 ```
 
-Or open `DockPin.xcodeproj` in Xcode and run from there.
+`install.sh` builds a Release binary, installs it to `/Applications/DockPin.app`, and launches the app. It uses `rsync` instead of a full copy so macOS does not revoke the Accessibility permission on subsequent updates.
 
 ## First launch
 
-1. Open `DockPin.app`
-2. Click the **⚠️ Grant Accessibility Permission** menu item
+1. Run `bash install.sh` — the app opens automatically
+2. Click **⚠️ Grant Accessibility Permission** in the menu bar
 3. Enable DockPin in *System Settings → Privacy & Security → Accessibility*
-4. The app automatically relaunches once permission is detected
+4. DockPin detects the permission and relaunches itself automatically
 5. Select the screen to pin the Dock to via **Pin Dock to Screen**
+
+> **Note:** Always use `install.sh` for updates. Replacing the `.app` bundle manually (rm + cp) causes macOS to revoke the Accessibility permission and you will need to re-grant it.
